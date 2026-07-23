@@ -10,6 +10,48 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&family=Karla:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<style>
+/* Gallery filters — self-contained, no dependency on css/style.css */
+.gallery-filters {
+  display: flex; flex-wrap: wrap; align-items: flex-end;
+  gap: 1rem; margin-bottom: 1.5rem;
+}
+.filter-field { display: flex; flex-direction: column; gap: 0.3rem; }
+.filter-field label {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1rem; font-weight: 600; color: #5e7a93;
+}
+.filter-field select {
+  font-family: "Karla", -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.9rem; color: #3a4550; background-color: #ffffff;
+  border: 1px solid #e4e0d8; border-radius: 8px;
+  padding: 0.5rem 2rem 0.5rem 0.8rem; min-width: 13rem; cursor: pointer;
+  -webkit-appearance: none; -moz-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%235e7a93' stroke-width='1.5' d='M1 1.5 6 6.5l5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 0.7rem;
+}
+.filter-field select:hover { border-color: #8ca3b8; }
+.filter-reset {
+  font-family: "Karla", -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.8rem; color: #5e7a93; background: none; border: none;
+  border-bottom: 1px solid #8ca3b8; padding: 0 0 0.15rem;
+  margin-bottom: 0.55rem; cursor: pointer;
+}
+.filter-reset:hover { color: #3a4550; border-bottom-color: #3a4550; }
+.filter-count {
+  font-size: 0.82rem; color: #5e7a93; opacity: 0.85; margin: 0 0 0.55rem auto;
+}
+.gallery-empty {
+  text-align: center; padding: 2rem 1rem;
+  background: #f7eef0; border-radius: 8px; margin-top: 1rem;
+}
+@media (max-width: 560px) {
+  .gallery-filters { gap: 0.75rem; }
+  .filter-field { width: 100%; }
+  .filter-field select { width: 100%; min-width: 0; }
+  .filter-count { margin: 0; width: 100%; }
+}
+</style>
 </head>
 <body>
 
@@ -65,7 +107,7 @@
             <option value="elaborate">Elaborate (1)</option>
           </select>
         </div>
-        <button type="button" class="filter-reset" data-filter-reset hidden>Clear filters</button>
+        <button type="button" class="filter-reset" data-filter-reset style="display:none">Clear filters</button>
         <p class="filter-count" data-filter-count aria-live="polite"></p>
       </div>
       <div class="gallery-grid" data-gallery-grid>
@@ -74,7 +116,7 @@
         <img src="images/cakepops-baby-shower-blue.jpg" alt="Baby shower cake pops in blue and white with drizzle, baby feet, bows, and rattles" loading="lazy" data-occasion="baby-showers" data-tier="moderate">
         <img src="images/cakepops-chocolate-hearts.jpg" alt="Chocolate-dipped heart cake pops with white and dark chocolate drizzle" loading="lazy" data-occasion="seasonal" data-tier="standard">
       </div>
-      <p class="gallery-empty" data-gallery-empty hidden>No designs match that combination yet &mdash; try another tier or occasion, or <a href="https://m.me/618246288639868" target="_blank" rel="noopener">message Becky</a> about a custom set.</p>
+      <p class="gallery-empty" data-gallery-empty style="display:none">No designs match that combination yet &mdash; try another tier or occasion, or <a href="https://m.me/618246288639868" target="_blank" rel="noopener">message Becky</a> about a custom set.</p>
     </div>
   </section>
 
@@ -94,10 +136,12 @@
    (?occasion=birthdays&tier=elaborate) so filtered views can be linked from the
    pricing page and shared.
 
-   Note: images are hidden with the .is-hidden class, not the [hidden] attribute.
-   style.css sets `img { display: block; }`, and an author rule like that overrides
-   the browser's built-in [hidden] { display: none }, so the attribute alone does
-   not hide anything here. The attribute is still set for assistive tech. */
+   Hiding is done by writing style.display directly on the element. That is
+   deliberate: an inline style outranks every stylesheet rule, so filtering keeps
+   working even if css/style.css is stale, cached, or never redeployed. The
+   [hidden] attribute is set alongside it for assistive tech, but is NOT relied
+   on for the visual result — css/style.css declares `img { display: block; }`,
+   which overrides the browser default of [hidden] { display: none }. */
 (function () {
   var grid = document.querySelector('[data-gallery-grid]');
   if (!grid) return;
@@ -116,7 +160,6 @@
     return null;
   }
 
-  /* Accept a URL value only if it matches a real option. */
   function isValid(axis, value) {
     var sel = selectFor(axis);
     if (!sel) return false;
@@ -149,16 +192,29 @@
     tiles.forEach(function (tile) {
       var visible = (state.occasion === 'all' || tile.dataset.occasion === state.occasion) &&
                     (state.tier     === 'all' || tile.dataset.tier     === state.tier);
-      tile.classList.toggle('is-hidden', !visible);
-      if (visible) { tile.removeAttribute('hidden'); shown++; }
-      else { tile.setAttribute('hidden', ''); }
+      if (visible) {
+        tile.style.display = '';
+        tile.removeAttribute('hidden');
+        shown++;
+      } else {
+        tile.style.display = 'none';
+        tile.setAttribute('hidden', '');
+      }
     });
 
     selects.forEach(function (sel) { sel.value = state[sel.dataset.axis]; });
 
     var filtering = state.occasion !== 'all' || state.tier !== 'all';
-    if (resetEl) resetEl.hidden = !filtering;
-    if (emptyEl) emptyEl.hidden = shown !== 0;
+    if (resetEl) {
+      resetEl.style.display = filtering ? '' : 'none';
+      if (filtering) { resetEl.removeAttribute('hidden'); }
+      else { resetEl.setAttribute('hidden', ''); }
+    }
+    if (emptyEl) {
+      emptyEl.style.display = shown === 0 ? '' : 'none';
+      if (shown === 0) { emptyEl.removeAttribute('hidden'); }
+      else { emptyEl.setAttribute('hidden', ''); }
+    }
     if (countEl) {
       countEl.textContent = filtering
         ? 'Showing ' + shown + ' of ' + tiles.length + ' designs'
@@ -176,10 +232,8 @@
 
   if (resetEl) {
     resetEl.addEventListener('click', function () {
-      state.occasion = 'all';
-      state.tier = 'all';
-      apply();
-      writeURL();
+      state.occasion = 'all'; state.tier = 'all';
+      apply(); writeURL();
     });
   }
 
