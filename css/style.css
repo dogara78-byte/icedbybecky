@@ -475,52 +475,63 @@ h3 {
 
 /* ---------------- Gallery filters ---------------- */
 .gallery-filters {
-  margin-bottom: 1.5rem;
-}
-.filter-row {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.45rem;
-  margin-bottom: 0.6rem;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
-.filter-label {
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.filter-field label {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--blue-deep);
-  margin-right: 0.35rem;
-  min-width: 6.5rem;
 }
-.filter-btn {
+.filter-field select {
   font-family: var(--font-body);
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
+  font-size: 0.9rem;
   color: var(--ink);
   background: var(--white);
   border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  padding: 0.5rem 2rem 0.5rem 0.8rem;
+  min-width: 13rem;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%235e7a93' d='M1 1.5 6 6.5l5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.7rem;
 }
-.filter-btn:hover { border-color: var(--blue); color: var(--blue-deep); }
-.filter-btn.is-active {
-  background: var(--blue-deep);
-  border-color: var(--blue-deep);
-  color: var(--white);
-}
-.filter-help {
-  font-size: 0.78rem;
-  margin-left: 0.35rem;
-  color: var(--blue-deep);
-}
-.filter-count {
+.filter-field select:hover { border-color: var(--blue); }
+.filter-reset {
+  font-family: var(--font-body);
   font-size: 0.8rem;
   color: var(--blue-deep);
-  opacity: 0.8;
-  margin: 0.2rem 0 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--blue);
+  padding: 0 0 0.15rem;
+  margin-bottom: 0.55rem;
+  cursor: pointer;
 }
+.filter-reset:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.filter-count {
+  font-size: 0.82rem;
+  color: var(--blue-deep);
+  opacity: 0.85;
+  margin: 0 0 0.55rem auto;
+}
+
+/* Must out-specify `img { display: block; }` on line 42 — the [hidden]
+   attribute alone is not enough to hide a filtered-out tile. */
+.gallery-grid img.is-hidden { display: none; }
+
 .gallery-empty {
   text-align: center;
   padding: 2rem 1rem;
@@ -528,10 +539,11 @@ h3 {
   border-radius: 8px;
   margin-top: 1rem;
 }
-.price-examples {
-  font-size: 0.82rem;
-  margin: 0.4rem 0 0.2rem;
-}
+.price-examples { font-size: 0.82rem; margin: 0.4rem 0 0.2rem; }
+
 @media (max-width: 560px) {
-  .filter-label { min-width: 100%; margin-bottom: 0.1rem; }
+  .gallery-filters { gap: 0.75rem; }
+  .filter-field { width: 100%; }
+  .filter-field select { width: 100%; min-width: 0; }
+  .filter-count { margin: 0; width: 100%; }
 }
