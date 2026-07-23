@@ -46,23 +46,27 @@
         <p>Artisan buttercream cupcakes, piped by hand. See many more on our
         <a href="https://www.facebook.com/ICEDByBecky" target="_blank" rel="noopener">Facebook page</a>.</p>
       </div>
-      <div class="gallery-filters" role="group" aria-label="Filter gallery">
-        <div class="filter-row">
-          <span class="filter-label" id="filter-occasion-label">Occasion</span>
-          <button type="button" class="filter-btn is-active" data-axis="occasion" data-value="all">All</button>
-          <button type="button" class="filter-btn" data-axis="occasion" data-value="weddings">Weddings</button>
-          <button type="button" class="filter-btn" data-axis="occasion" data-value="birthdays">Birthdays</button>
-          <button type="button" class="filter-btn" data-axis="occasion" data-value="baby-showers">Baby Showers</button>
-          <button type="button" class="filter-btn" data-axis="occasion" data-value="other">Other</button>
+      <div class="gallery-filters">
+        <div class="filter-field">
+          <label for="filter-occasion">Occasion</label>
+          <select id="filter-occasion" data-axis="occasion">
+            <option value="all">All occasions</option>
+            <option value="weddings">Weddings (1)</option>
+            <option value="birthdays">Birthdays (5)</option>
+            <option value="baby-showers">Baby Showers (1)</option>
+            <option value="other">Other (2)</option>
+          </select>
         </div>
-        <div class="filter-row">
-          <span class="filter-label" id="filter-tier-label">Design Tier</span>
-          <button type="button" class="filter-btn is-active" data-axis="tier" data-value="all">All</button>
-          <button type="button" class="filter-btn" data-axis="tier" data-value="standard">Standard</button>
-          <button type="button" class="filter-btn" data-axis="tier" data-value="moderate">Moderate</button>
-          <button type="button" class="filter-btn" data-axis="tier" data-value="elaborate">Elaborate</button>
-          <a class="filter-help" href="pricing.html">What do tiers mean?</a>
+        <div class="filter-field">
+          <label for="filter-tier">Design Tier</label>
+          <select id="filter-tier" data-axis="tier">
+            <option value="all">All tiers</option>
+            <option value="standard">Standard (1)</option>
+            <option value="moderate">Moderate (4)</option>
+            <option value="elaborate">Elaborate (4)</option>
+          </select>
         </div>
+        <button type="button" class="filter-reset" data-filter-reset hidden>Clear filters</button>
         <p class="filter-count" data-filter-count aria-live="polite"></p>
       </div>
       <div class="gallery-grid" data-gallery-grid>
@@ -92,34 +96,50 @@
 
 <script>
 /* ICED By Becky — gallery filtering.
-   Two independent axes (occasion + tier) combined with AND.
-   State is mirrored to the URL (?occasion=birthdays&tier=elaborate) so filtered
-   views can be linked directly from the pricing page and shared. */
+   Two dropdowns (occasion + tier) combined with AND. State is mirrored to the URL
+   (?occasion=birthdays&tier=elaborate) so filtered views can be linked from the
+   pricing page and shared.
+
+   Note: images are hidden with the .is-hidden class, not the [hidden] attribute.
+   style.css sets `img { display: block; }`, and an author rule like that overrides
+   the browser's built-in [hidden] { display: none }, so the attribute alone does
+   not hide anything here. The attribute is still set for assistive tech. */
 (function () {
   var grid = document.querySelector('[data-gallery-grid]');
   if (!grid) return;
 
-  var buttons  = Array.prototype.slice.call(document.querySelectorAll('.filter-btn'));
-  var tiles    = Array.prototype.slice.call(grid.querySelectorAll('[data-occasion]'));
-  var countEl  = document.querySelector('[data-filter-count]');
-  var emptyEl  = document.querySelector('[data-gallery-empty]');
-  var state    = { occasion: 'all', tier: 'all' };
+  var selects = Array.prototype.slice.call(document.querySelectorAll('.gallery-filters select'));
+  var tiles   = Array.prototype.slice.call(grid.querySelectorAll('[data-occasion]'));
+  var countEl = document.querySelector('[data-filter-count]');
+  var emptyEl = document.querySelector('[data-gallery-empty]');
+  var resetEl = document.querySelector('[data-filter-reset]');
+  var state   = { occasion: 'all', tier: 'all' };
 
-  function validValues(axis) {
-    return buttons.filter(function (b) { return b.dataset.axis === axis; })
-                  .map(function (b) { return b.dataset.value; });
+  function selectFor(axis) {
+    for (var i = 0; i < selects.length; i++) {
+      if (selects[i].dataset.axis === axis) return selects[i];
+    }
+    return null;
   }
 
-  /* Read initial state from the URL; ignore values with no matching button. */
+  /* Accept a URL value only if it matches a real option. */
+  function isValid(axis, value) {
+    var sel = selectFor(axis);
+    if (!sel) return false;
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === value) return true;
+    }
+    return false;
+  }
+
   function readURL() {
     var params = new URLSearchParams(window.location.search);
     ['occasion', 'tier'].forEach(function (axis) {
       var v = (params.get(axis) || '').toLowerCase();
-      if (v && validValues(axis).indexOf(v) !== -1) state[axis] = v;
+      if (v && isValid(axis, v)) state[axis] = v;
     });
   }
 
-  /* Keep the address bar in sync without adding history entries. */
   function writeURL() {
     var params = new URLSearchParams(window.location.search);
     ['occasion', 'tier'].forEach(function (axis) {
@@ -133,34 +153,41 @@
   function apply() {
     var shown = 0;
     tiles.forEach(function (tile) {
-      var okOcc  = state.occasion === 'all' || tile.dataset.occasion === state.occasion;
-      var okTier = state.tier     === 'all' || tile.dataset.tier     === state.tier;
-      var visible = okOcc && okTier;
-      tile.hidden = !visible;
-      if (visible) shown++;
+      var visible = (state.occasion === 'all' || tile.dataset.occasion === state.occasion) &&
+                    (state.tier     === 'all' || tile.dataset.tier     === state.tier);
+      tile.classList.toggle('is-hidden', !visible);
+      if (visible) { tile.removeAttribute('hidden'); shown++; }
+      else { tile.setAttribute('hidden', ''); }
     });
 
-    buttons.forEach(function (b) {
-      var active = state[b.dataset.axis] === b.dataset.value;
-      b.classList.toggle('is-active', active);
-      b.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
+    selects.forEach(function (sel) { sel.value = state[sel.dataset.axis]; });
 
+    var filtering = state.occasion !== 'all' || state.tier !== 'all';
+    if (resetEl) resetEl.hidden = !filtering;
     if (emptyEl) emptyEl.hidden = shown !== 0;
     if (countEl) {
-      countEl.textContent = (state.occasion === 'all' && state.tier === 'all')
-        ? 'Showing all ' + tiles.length + ' designs'
-        : 'Showing ' + shown + ' of ' + tiles.length + ' designs';
+      countEl.textContent = filtering
+        ? 'Showing ' + shown + ' of ' + tiles.length + ' designs'
+        : 'Showing all ' + tiles.length + ' designs';
     }
   }
 
-  buttons.forEach(function (b) {
-    b.addEventListener('click', function () {
-      state[b.dataset.axis] = b.dataset.value;
+  selects.forEach(function (sel) {
+    sel.addEventListener('change', function () {
+      state[sel.dataset.axis] = sel.value;
       apply();
       writeURL();
     });
   });
+
+  if (resetEl) {
+    resetEl.addEventListener('click', function () {
+      state.occasion = 'all';
+      state.tier = 'all';
+      apply();
+      writeURL();
+    });
+  }
 
   readURL();
   apply();
