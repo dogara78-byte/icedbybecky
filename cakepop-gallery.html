@@ -46,12 +46,31 @@
         <p>Hand-dipped cake pops, decorated to match your theme. See our <a href="pricing.html">pricing page</a> for details, and find more designs on our
         <a href="https://www.facebook.com/ICEDByBecky" target="_blank" rel="noopener">Facebook page</a>.</p>
       </div>
-      <div class="gallery-grid">
-        <img src="images/cakepops-purple-flowers.jpg" alt="Lavender cake pops with piped daisy flower detail" loading="lazy">
-        <img src="images/cakepops-winnie-pooh.jpg" alt="Classic Winnie the Pooh cake pops with Pooh faces, hunny pots, beehives, and honeycomb" loading="lazy">
-        <img src="images/cakepops-baby-shower-blue.jpg" alt="Baby shower cake pops in blue and white with drizzle, baby feet, bows, and rattles" loading="lazy">
-        <img src="images/cakepops-chocolate-hearts.jpg" alt="Chocolate-dipped heart cake pops with white and dark chocolate drizzle" loading="lazy">
+      <div class="gallery-filters" role="group" aria-label="Filter gallery">
+        <div class="filter-row">
+          <span class="filter-label" id="filter-occasion-label">Occasion</span>
+          <button type="button" class="filter-btn is-active" data-axis="occasion" data-value="all">All</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="baby-showers">Baby Showers</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="seasonal">Seasonal</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="other">Other</button>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label" id="filter-tier-label">Design Tier</span>
+          <button type="button" class="filter-btn is-active" data-axis="tier" data-value="all">All</button>
+          <button type="button" class="filter-btn" data-axis="tier" data-value="standard">Standard</button>
+          <button type="button" class="filter-btn" data-axis="tier" data-value="moderate">Moderate</button>
+          <button type="button" class="filter-btn" data-axis="tier" data-value="elaborate">Elaborate</button>
+          <a class="filter-help" href="pricing.html">What do tiers mean?</a>
+        </div>
+        <p class="filter-count" data-filter-count aria-live="polite"></p>
       </div>
+      <div class="gallery-grid" data-gallery-grid>
+        <img src="images/cakepops-purple-flowers.jpg" alt="Lavender cake pops with piped daisy flower detail" loading="lazy" data-occasion="other" data-tier="moderate">
+        <img src="images/cakepops-winnie-pooh.jpg" alt="Classic Winnie the Pooh cake pops with Pooh faces, hunny pots, beehives, and honeycomb" loading="lazy" data-occasion="baby-showers" data-tier="elaborate">
+        <img src="images/cakepops-baby-shower-blue.jpg" alt="Baby shower cake pops in blue and white with drizzle, baby feet, bows, and rattles" loading="lazy" data-occasion="baby-showers" data-tier="moderate">
+        <img src="images/cakepops-chocolate-hearts.jpg" alt="Chocolate-dipped heart cake pops with white and dark chocolate drizzle" loading="lazy" data-occasion="seasonal" data-tier="standard">
+      </div>
+      <p class="gallery-empty" data-gallery-empty hidden>No designs match that combination yet &mdash; try another tier or occasion, or <a href="https://m.me/618246288639868" target="_blank" rel="noopener">message Becky</a> about a custom set.</p>
     </div>
   </section>
 
@@ -64,6 +83,83 @@
   </section>
 
 </main>
+
+<script>
+/* ICED By Becky — gallery filtering.
+   Two independent axes (occasion + tier) combined with AND.
+   State is mirrored to the URL (?occasion=birthdays&tier=elaborate) so filtered
+   views can be linked directly from the pricing page and shared. */
+(function () {
+  var grid = document.querySelector('[data-gallery-grid]');
+  if (!grid) return;
+
+  var buttons  = Array.prototype.slice.call(document.querySelectorAll('.filter-btn'));
+  var tiles    = Array.prototype.slice.call(grid.querySelectorAll('[data-occasion]'));
+  var countEl  = document.querySelector('[data-filter-count]');
+  var emptyEl  = document.querySelector('[data-gallery-empty]');
+  var state    = { occasion: 'all', tier: 'all' };
+
+  function validValues(axis) {
+    return buttons.filter(function (b) { return b.dataset.axis === axis; })
+                  .map(function (b) { return b.dataset.value; });
+  }
+
+  /* Read initial state from the URL; ignore values with no matching button. */
+  function readURL() {
+    var params = new URLSearchParams(window.location.search);
+    ['occasion', 'tier'].forEach(function (axis) {
+      var v = (params.get(axis) || '').toLowerCase();
+      if (v && validValues(axis).indexOf(v) !== -1) state[axis] = v;
+    });
+  }
+
+  /* Keep the address bar in sync without adding history entries. */
+  function writeURL() {
+    var params = new URLSearchParams(window.location.search);
+    ['occasion', 'tier'].forEach(function (axis) {
+      if (state[axis] === 'all') { params.delete(axis); }
+      else { params.set(axis, state[axis]); }
+    });
+    var qs = params.toString();
+    history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : ''));
+  }
+
+  function apply() {
+    var shown = 0;
+    tiles.forEach(function (tile) {
+      var okOcc  = state.occasion === 'all' || tile.dataset.occasion === state.occasion;
+      var okTier = state.tier     === 'all' || tile.dataset.tier     === state.tier;
+      var visible = okOcc && okTier;
+      tile.hidden = !visible;
+      if (visible) shown++;
+    });
+
+    buttons.forEach(function (b) {
+      var active = state[b.dataset.axis] === b.dataset.value;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+
+    if (emptyEl) emptyEl.hidden = shown !== 0;
+    if (countEl) {
+      countEl.textContent = (state.occasion === 'all' && state.tier === 'all')
+        ? 'Showing all ' + tiles.length + ' designs'
+        : 'Showing ' + shown + ' of ' + tiles.length + ' designs';
+    }
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      state[b.dataset.axis] = b.dataset.value;
+      apply();
+      writeURL();
+    });
+  });
+
+  readURL();
+  apply();
+})();
+</script>
 
 <footer class="site-footer">
   <div class="wrap">

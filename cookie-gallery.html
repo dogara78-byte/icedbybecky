@@ -46,44 +46,67 @@
         <p>A sampling of recent custom sets. Hundreds more designs and reviews live on our
         <a href="https://www.facebook.com/ICEDByBecky" target="_blank" rel="noopener">Facebook page</a>.</p>
       </div>
-      <div class="gallery-grid">
-        <img src="images/cookies-baby-bloom.jpg" alt="Baby in Bloom shower cookies with pink florals, rompers, and bibs" loading="lazy">
-        <img src="images/cookies-space-first-birthday.jpg" alt="Space themed first birthday cookies with rockets, astronauts, moons, and a custom name plaque" loading="lazy">
-        <img src="images/cookies-miss-to-mrs.jpg" alt="Miss to Mrs bridal shower cookies with wedding dresses, diamond rings, and gold monograms" loading="lazy">
-        <img src="images/cookies-winnie-pooh-baby.jpg" alt="Classic Winnie the Pooh baby shower cookies with hunny pots, beehives, and storybook scenes" loading="lazy">
-        <img src="images/cookies-hello-forty.jpg" alt="Hello Forty birthday cookies with buttercream roses, gold lettering, and monograms" loading="lazy">
-        <img src="images/cookies-happy-camper.jpg" alt="One Happy Camper first birthday cookies with bears, pine trees, campfires, and a custom camp sign" loading="lazy">
-        <img src="images/cookies-first-communion.jpg" alt="First Holy Communion cookies with gold crosses, doves, rosaries, pink roses, and custom name" loading="lazy">
-        <img src="images/cookies-farmers-market-baby.jpg" alt="Farmers market baby shower cookies with produce carts, strawberry baskets, and gingham lettering" loading="lazy">
-        <img src="images/cookies-paris-birthday.jpg" alt="Paris themed birthday cookies with Eiffel Towers, flower carts, bicycles, and striped bows" loading="lazy">
-        <img src="images/cookies-duckling-baby.jpg" alt="Duckling baby shower cookies in soft neutrals with watercolor ducks, rattles, and sleepers" loading="lazy">
-        <img src="images/cookies-flamingals-cheer.jpg" alt="Flamin-gals cheer cookies with flamingos, megaphones, uniforms, and bows" loading="lazy">
-        <img src="images/cookies-sweet-baby-girl.jpg" alt="Sweet Baby Girl shower cookies with rosette rattles, booties, pacifiers, and florals in blush and tan" loading="lazy">
-        <img src="images/cookies-lemon-bridal.jpg" alt="Lemon and blue tile bridal shower cookies with Bride to Be plaques and gold wedding rings" loading="lazy">
-        <img src="images/cookies-bulldogs-2023.jpg" alt="Bulldog mascot graduation cookies with hand-piped 2023 details" loading="lazy">
-        <img src="images/cookies-baby-on-board.jpg" alt="Baby on Board surf themed shower cookies with surfboards, palm trees, and sand dollars" loading="lazy">
-        <img src="images/cookies-five-is-a-vibe.jpg" alt="Five is a Vibe groovy birthday cookies with peace signs, smiley faces, daisies, and tie-dye" loading="lazy">
-        <img src="images/cookies-farm-second-birthday.jpg" alt="Farm themed second birthday cookies with tractors, barns, cows, pigs, and chickens" loading="lazy">
-        <img src="images/cookies-golf-partee-first.jpg" alt="Let's Par-Tee golf first birthday cookies with hand-painted teddy bear golfer, golf carts, and plaid" loading="lazy">
-        <img src="images/cookies-tw-football.jpg" alt="Football cookies in blue and gold with jerseys, helmets, footballs, and TW monograms" loading="lazy">
-        <img src="images/cookies-floral-halloween.jpg" alt="Floral gothic Halloween cookies with skulls, purple roses, coffins, candles, and poison bottles" loading="lazy">
-        <img src="images/cookies-sweetheart-baby.jpg" alt="Our Little Sweetheart Valentine baby shower cookies with baby feet hearts, rattles, and booties" loading="lazy">
-        <img src="images/cookies-seven-birthday.jpg" alt="Seventh birthday cookies in coral and blue with balloons, tiered cakes, and party garland" loading="lazy">
-        <img src="images/cookies-party-animal-ace.jpg" alt="Party Animal safari first birthday cookies with lions, giraffes, monkeys, and custom name plaques" loading="lazy">
-        <img src="images/cookies-wild-one-safari.jpg" alt="Wild One safari birthday cookies with hand-painted giraffe, zebra, elephant, and lion cub" loading="lazy">
-        <img src="images/cookies-rose-hulman.jpg" alt="Rose-Hulman Institute of Technology cookies with logos, seals, and elephant mascot" loading="lazy">
-        <img src="images/cookies-volleyballs.jpg" alt="Volleyball cookies with purple piped detail on round white icing" loading="lazy">
-        <img src="images/cookies-alabama-grad.jpg" alt="Alabama graduation cookies with Big Al mascot, crimson grad caps, and script A logos" loading="lazy">
-        <img src="images/cookies-one-happy-dude.jpg" alt="One Happy Dude first birthday cookies with smiley faces, checkered accents, and balloons" loading="lazy">
-        <img src="images/cookies-shake-n-bake-ace.jpg" alt="Racing themed first birthday cookies with Shake-N-Bake plaques, checkered flags, and balloons" loading="lazy">
-        <img src="images/cookies-bearly-wait-baby.jpg" alt="We Can Bearly Wait baby shower cookies with sage teddy bears, sleepers, and balloons" loading="lazy">
-        <img src="images/cookies-space-trip-sun.jpg" alt="First Trip Around the Sun space birthday cookies with astronauts, rockets, moons, and name stars" loading="lazy">
-        <img src="images/cookies-cherry-on-top.jpg" alt="She's the Cherry on Top first birthday cookies with pink gingham, cherries, and bows" loading="lazy">
-        <img src="images/cookies-mommy-to-bee.jpg" alt="Mommy to Bee wildflower baby shower cookies with honeycomb, bees, lavender rompers, and bottles" loading="lazy">
-        <img src="images/cookies-golf-baby-shower.jpg" alt="Golf themed baby shower cookies with argyle onesies, golf carts, club bags, and plaid" loading="lazy">
-        <img src="images/cookies-race-car-august.jpg" alt="Vintage race car first birthday cookies with trophies, checkered flags, and custom name" loading="lazy">
-        <img src="images/cookies-sage-floral-baby.jpg" alt="Sage and cream floral baby shower cookies with vintage prams, rattles, and piped roses" loading="lazy">
+      <div class="gallery-filters" role="group" aria-label="Filter gallery">
+        <div class="filter-row">
+          <span class="filter-label" id="filter-occasion-label">Occasion</span>
+          <button type="button" class="filter-btn is-active" data-axis="occasion" data-value="all">All</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="weddings">Weddings</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="birthdays">Birthdays</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="baby-showers">Baby Showers</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="graduations">Graduations</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="school-spirit">School Spirit</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="religious">Religious</button>
+          <button type="button" class="filter-btn" data-axis="occasion" data-value="seasonal">Seasonal</button>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label" id="filter-tier-label">Design Tier</span>
+          <button type="button" class="filter-btn is-active" data-axis="tier" data-value="all">All</button>
+          <button type="button" class="filter-btn" data-axis="tier" data-value="standard">Standard</button>
+          <button type="button" class="filter-btn" data-axis="tier" data-value="moderate">Moderate</button>
+          <button type="button" class="filter-btn" data-axis="tier" data-value="elaborate">Elaborate</button>
+          <a class="filter-help" href="pricing.html">What do tiers mean?</a>
+        </div>
+        <p class="filter-count" data-filter-count aria-live="polite"></p>
       </div>
+      <div class="gallery-grid" data-gallery-grid>
+        <img src="images/cookies-baby-bloom.jpg" alt="Baby in Bloom shower cookies with pink florals, rompers, and bibs" loading="lazy" data-occasion="baby-showers" data-tier="moderate">
+        <img src="images/cookies-space-first-birthday.jpg" alt="Space themed first birthday cookies with rockets, astronauts, moons, and a custom name plaque" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-miss-to-mrs.jpg" alt="Miss to Mrs bridal shower cookies with wedding dresses, diamond rings, and gold monograms" loading="lazy" data-occasion="weddings" data-tier="moderate">
+        <img src="images/cookies-winnie-pooh-baby.jpg" alt="Classic Winnie the Pooh baby shower cookies with hunny pots, beehives, and storybook scenes" loading="lazy" data-occasion="baby-showers" data-tier="elaborate">
+        <img src="images/cookies-hello-forty.jpg" alt="Hello Forty birthday cookies with buttercream roses, gold lettering, and monograms" loading="lazy" data-occasion="birthdays" data-tier="elaborate">
+        <img src="images/cookies-happy-camper.jpg" alt="One Happy Camper first birthday cookies with bears, pine trees, campfires, and a custom camp sign" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-first-communion.jpg" alt="First Holy Communion cookies with gold crosses, doves, rosaries, pink roses, and custom name" loading="lazy" data-occasion="religious" data-tier="moderate">
+        <img src="images/cookies-farmers-market-baby.jpg" alt="Farmers market baby shower cookies with produce carts, strawberry baskets, and gingham lettering" loading="lazy" data-occasion="baby-showers" data-tier="moderate">
+        <img src="images/cookies-paris-birthday.jpg" alt="Paris themed birthday cookies with Eiffel Towers, flower carts, bicycles, and striped bows" loading="lazy" data-occasion="birthdays" data-tier="elaborate">
+        <img src="images/cookies-duckling-baby.jpg" alt="Duckling baby shower cookies in soft neutrals with watercolor ducks, rattles, and sleepers" loading="lazy" data-occasion="baby-showers" data-tier="elaborate">
+        <img src="images/cookies-flamingals-cheer.jpg" alt="Flamin-gals cheer cookies with flamingos, megaphones, uniforms, and bows" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-sweet-baby-girl.jpg" alt="Sweet Baby Girl shower cookies with rosette rattles, booties, pacifiers, and florals in blush and tan" loading="lazy" data-occasion="baby-showers" data-tier="elaborate">
+        <img src="images/cookies-lemon-bridal.jpg" alt="Lemon and blue tile bridal shower cookies with Bride to Be plaques and gold wedding rings" loading="lazy" data-occasion="weddings" data-tier="moderate">
+        <img src="images/cookies-bulldogs-2023.jpg" alt="Bulldog mascot graduation cookies with hand-piped 2023 details" loading="lazy" data-occasion="school-spirit" data-tier="moderate">
+        <img src="images/cookies-baby-on-board.jpg" alt="Baby on Board surf themed shower cookies with surfboards, palm trees, and sand dollars" loading="lazy" data-occasion="baby-showers" data-tier="moderate">
+        <img src="images/cookies-five-is-a-vibe.jpg" alt="Five is a Vibe groovy birthday cookies with peace signs, smiley faces, daisies, and tie-dye" loading="lazy" data-occasion="birthdays" data-tier="elaborate">
+        <img src="images/cookies-farm-second-birthday.jpg" alt="Farm themed second birthday cookies with tractors, barns, cows, pigs, and chickens" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-golf-partee-first.jpg" alt="Let's Par-Tee golf first birthday cookies with hand-painted teddy bear golfer, golf carts, and plaid" loading="lazy" data-occasion="birthdays" data-tier="elaborate">
+        <img src="images/cookies-tw-football.jpg" alt="Football cookies in blue and gold with jerseys, helmets, footballs, and TW monograms" loading="lazy" data-occasion="school-spirit" data-tier="moderate">
+        <img src="images/cookies-floral-halloween.jpg" alt="Floral gothic Halloween cookies with skulls, purple roses, coffins, candles, and poison bottles" loading="lazy" data-occasion="seasonal" data-tier="elaborate">
+        <img src="images/cookies-sweetheart-baby.jpg" alt="Our Little Sweetheart Valentine baby shower cookies with baby feet hearts, rattles, and booties" loading="lazy" data-occasion="baby-showers" data-tier="moderate">
+        <img src="images/cookies-seven-birthday.jpg" alt="Seventh birthday cookies in coral and blue with balloons, tiered cakes, and party garland" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-party-animal-ace.jpg" alt="Party Animal safari first birthday cookies with lions, giraffes, monkeys, and custom name plaques" loading="lazy" data-occasion="birthdays" data-tier="elaborate">
+        <img src="images/cookies-wild-one-safari.jpg" alt="Wild One safari birthday cookies with hand-painted giraffe, zebra, elephant, and lion cub" loading="lazy" data-occasion="birthdays" data-tier="elaborate">
+        <img src="images/cookies-rose-hulman.jpg" alt="Rose-Hulman Institute of Technology cookies with logos, seals, and elephant mascot" loading="lazy" data-occasion="school-spirit" data-tier="elaborate">
+        <img src="images/cookies-volleyballs.jpg" alt="Volleyball cookies with purple piped detail on round white icing" loading="lazy" data-occasion="school-spirit" data-tier="standard">
+        <img src="images/cookies-alabama-grad.jpg" alt="Alabama graduation cookies with Big Al mascot, crimson grad caps, and script A logos" loading="lazy" data-occasion="graduations" data-tier="moderate">
+        <img src="images/cookies-one-happy-dude.jpg" alt="One Happy Dude first birthday cookies with smiley faces, checkered accents, and balloons" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-shake-n-bake-ace.jpg" alt="Racing themed first birthday cookies with Shake-N-Bake plaques, checkered flags, and balloons" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-bearly-wait-baby.jpg" alt="We Can Bearly Wait baby shower cookies with sage teddy bears, sleepers, and balloons" loading="lazy" data-occasion="baby-showers" data-tier="moderate">
+        <img src="images/cookies-space-trip-sun.jpg" alt="First Trip Around the Sun space birthday cookies with astronauts, rockets, moons, and name stars" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-cherry-on-top.jpg" alt="She's the Cherry on Top first birthday cookies with pink gingham, cherries, and bows" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-mommy-to-bee.jpg" alt="Mommy to Bee wildflower baby shower cookies with honeycomb, bees, lavender rompers, and bottles" loading="lazy" data-occasion="baby-showers" data-tier="elaborate">
+        <img src="images/cookies-golf-baby-shower.jpg" alt="Golf themed baby shower cookies with argyle onesies, golf carts, club bags, and plaid" loading="lazy" data-occasion="baby-showers" data-tier="moderate">
+        <img src="images/cookies-race-car-august.jpg" alt="Vintage race car first birthday cookies with trophies, checkered flags, and custom name" loading="lazy" data-occasion="birthdays" data-tier="moderate">
+        <img src="images/cookies-sage-floral-baby.jpg" alt="Sage and cream floral baby shower cookies with vintage prams, rattles, and piped roses" loading="lazy" data-occasion="baby-showers" data-tier="moderate">
+      </div>
+      <p class="gallery-empty" data-gallery-empty hidden>No designs match that combination yet &mdash; try another tier or occasion, or <a href="https://m.me/618246288639868" target="_blank" rel="noopener">message Becky</a> about a custom set.</p>
     </div>
   </section>
 
@@ -96,6 +119,83 @@
   </section>
 
 </main>
+
+<script>
+/* ICED By Becky — gallery filtering.
+   Two independent axes (occasion + tier) combined with AND.
+   State is mirrored to the URL (?occasion=birthdays&tier=elaborate) so filtered
+   views can be linked directly from the pricing page and shared. */
+(function () {
+  var grid = document.querySelector('[data-gallery-grid]');
+  if (!grid) return;
+
+  var buttons  = Array.prototype.slice.call(document.querySelectorAll('.filter-btn'));
+  var tiles    = Array.prototype.slice.call(grid.querySelectorAll('[data-occasion]'));
+  var countEl  = document.querySelector('[data-filter-count]');
+  var emptyEl  = document.querySelector('[data-gallery-empty]');
+  var state    = { occasion: 'all', tier: 'all' };
+
+  function validValues(axis) {
+    return buttons.filter(function (b) { return b.dataset.axis === axis; })
+                  .map(function (b) { return b.dataset.value; });
+  }
+
+  /* Read initial state from the URL; ignore values with no matching button. */
+  function readURL() {
+    var params = new URLSearchParams(window.location.search);
+    ['occasion', 'tier'].forEach(function (axis) {
+      var v = (params.get(axis) || '').toLowerCase();
+      if (v && validValues(axis).indexOf(v) !== -1) state[axis] = v;
+    });
+  }
+
+  /* Keep the address bar in sync without adding history entries. */
+  function writeURL() {
+    var params = new URLSearchParams(window.location.search);
+    ['occasion', 'tier'].forEach(function (axis) {
+      if (state[axis] === 'all') { params.delete(axis); }
+      else { params.set(axis, state[axis]); }
+    });
+    var qs = params.toString();
+    history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : ''));
+  }
+
+  function apply() {
+    var shown = 0;
+    tiles.forEach(function (tile) {
+      var okOcc  = state.occasion === 'all' || tile.dataset.occasion === state.occasion;
+      var okTier = state.tier     === 'all' || tile.dataset.tier     === state.tier;
+      var visible = okOcc && okTier;
+      tile.hidden = !visible;
+      if (visible) shown++;
+    });
+
+    buttons.forEach(function (b) {
+      var active = state[b.dataset.axis] === b.dataset.value;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+
+    if (emptyEl) emptyEl.hidden = shown !== 0;
+    if (countEl) {
+      countEl.textContent = (state.occasion === 'all' && state.tier === 'all')
+        ? 'Showing all ' + tiles.length + ' designs'
+        : 'Showing ' + shown + ' of ' + tiles.length + ' designs';
+    }
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      state[b.dataset.axis] = b.dataset.value;
+      apply();
+      writeURL();
+    });
+  });
+
+  readURL();
+  apply();
+})();
+</script>
 
 <footer class="site-footer">
   <div class="wrap">
