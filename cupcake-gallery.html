@@ -93,19 +93,19 @@
           <label for="filter-occasion">Occasion</label>
           <select id="filter-occasion" data-axis="occasion">
             <option value="all">All occasions</option>
-            <option value="weddings">Weddings (1)</option>
-            <option value="birthdays">Birthdays (5)</option>
-            <option value="baby-showers">Baby Showers (1)</option>
-            <option value="other">Other (2)</option>
+            <option value="weddings">Weddings</option>
+            <option value="birthdays">Birthdays</option>
+            <option value="baby-showers">Baby Showers</option>
+            <option value="other">Other</option>
           </select>
         </div>
         <div class="filter-field">
           <label for="filter-tier">Design Tier</label>
           <select id="filter-tier" data-axis="tier">
             <option value="all">All tiers</option>
-            <option value="standard">Standard (1)</option>
-            <option value="moderate">Moderate (4)</option>
-            <option value="elaborate">Elaborate (4)</option>
+            <option value="standard">Standard</option>
+            <option value="moderate">Moderate</option>
+            <option value="elaborate">Elaborate</option>
           </select>
         </div>
         <button type="button" class="filter-reset" data-filter-reset style="display:none">Clear filters</button>
@@ -243,6 +243,28 @@
     });
   }
 
+  /* Auto-count: fill each dropdown option with the live number of matching tiles,
+     computed from the grid itself on page load. Because the numbers are derived
+     from the actual <img> tags, adding or removing a photo updates the counts
+     automatically — there are no hardcoded totals to maintain or accidentally
+     desync. Each option's base label is preserved in data-label so re-running is
+     safe. */
+  function updateCounts() {
+    selects.forEach(function (sel) {
+      var axis = sel.dataset.axis;
+      Array.prototype.forEach.call(sel.options, function (opt) {
+        if (opt.dataset.label === undefined) {
+          opt.dataset.label = opt.textContent.replace(/\s*\(\d+\)\s*$/, '');
+        }
+        var base = opt.dataset.label;
+        if (opt.value === 'all') { opt.textContent = base; return; }
+        var n = tiles.filter(function (t) { return t.dataset[axis] === opt.value; }).length;
+        opt.textContent = base + ' (' + n + ')';
+      });
+    });
+  }
+
+  updateCounts();
   readURL();
   apply();
 })();
